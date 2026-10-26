@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apuesta Total | Apuestas deportivas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rojo:#E3242B;
+    --rojo-oscuro:#B81C22;
+    --coral:#F2867E;
+    --negro:#121214;
+    --negro-suave:#1D1C20;
+    --gris-borde:#E7E6EA;
+    --gris-fondo:#F6F5F7;
+    --texto:#1B1A1F;
+    --texto-sec:#68666E;
+    --blanco:#FFFFFF;
+    --verde:#1EA672;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Work Sans', sans-serif;
+    color:var(--texto);
+    background:var(--blanco);
+  }
+  a{color:inherit;}
+  .oculto-movil{display:none;}
+  @media(min-width:860px){.oculto-movil{display:revert;}}
+
+  /* ---------- Barra superior ---------- */
+  .barra-superior{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:.85rem 1.25rem;
+    border-bottom:1px solid var(--gris-borde);
+    gap:1rem;
+  }
+  .logo{
+    font-family:'Anton', sans-serif;
+    font-size:1.3rem;
+    color:var(--rojo);
+    letter-spacing:.01em;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .redes{display:flex; gap:.6rem; color:var(--texto-sec);}
+  .redes svg{width:17px; height:17px;}
+  .acciones-cuenta{display:flex; align-items:center; gap:1.1rem; font-size:.9rem; white-space:nowrap;}
+  .acciones-cuenta a{text-decoration:none;}
+  .acciones-cuenta a.registrarse{font-weight:600;}
+  .acciones-cuenta span.sep{color:var(--gris-borde);}
+
+  .menu-cuenta{position:relative;}
+  .btn-cuenta{
+    display:flex; align-items:center; gap:.5rem;
+    background:none; border:0; cursor:pointer;
+    font:inherit; font-size:.88rem; font-weight:600; color:var(--texto);
+    padding:.3rem .2rem;
+  }
+  .avatar-iniciales{
+    width:28px; height:28px; border-radius:50%;
+    background:var(--negro); color:var(--blanco);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.72rem; font-weight:700; flex:none;
+  }
+  .desplegable-cuenta{
+    position:absolute; right:0; top:130%;
+    background:var(--blanco); border:1px solid var(--gris-borde); border-radius:10px;
+    box-shadow:0 10px 24px rgba(0,0,0,.14);
+    min-width:160px; overflow:hidden; z-index:40;
+    display:none;
+  }
+  .desplegable-cuenta.visible{display:block;}
+  .desplegable-cuenta button{
+    display:block; width:100%; text-align:left; border:0; background:none; cursor:pointer;
+    padding:.75rem .9rem; font-size:.85rem; color:var(--texto);
+  }
+  .desplegable-cuenta button:hover{background:var(--gris-fondo);}
+
+  /* ---------- Barra de navegación ---------- */
+  .barra-nav{
+    background:var(--negro);
+    color:var(--blanco);
+    overflow-x:auto;
+  }
+  .barra-nav ul{
+    list-style:none; display:flex; gap:1.75rem;
+    margin:0; padding:.75rem 1.25rem;
+    font-size:.92rem; white-space:nowrap;
+  }
+  .barra-nav a{text-decoration:none; color:var(--blanco); opacity:.9;}
+  .barra-nav li.activo a{opacity:1; font-weight:600; border-bottom:2px solid var(--rojo); padding-bottom:.2rem;}
+  .etiqueta-nueva{
+    background:var(--rojo); color:var(--blanco); font-size:.62rem;
+    padding:.05rem .35rem; border-radius:3px; margin-left:.3rem; vertical-align:2px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(255,255,255,.10), transparent 40%),
+      linear-gradient(120deg, #2B0F10 0%, #7A1418 45%, var(--rojo) 100%);
+    color:var(--blanco);
+    overflow:hidden;
+  }
+  .hero-interior{
+    max-width:1200px; margin:0 auto;
+    padding:2.5rem 1.25rem;
+    display:flex; align-items:center; justify-content:space-between; gap:2rem;
+  }
+  .hero-texto h2{
+    font-family:'Anton', sans-serif;
+    font-size:clamp(1.6rem, 4vw, 2.6rem);
+    line-height:1.05; letter-spacing:.01em; margin:0 0 .6rem;
+    text-transform:uppercase;
+  }
+  .hero-texto p{margin:0 0 1.2rem; color:rgba(255,255,255,.85); max-width:32ch;}
+  .btn-hero{
+    display:inline-block;
+    background:var(--blanco); color:var(--negro);
+    font-weight:700; text-decoration:none;
+    padding:.75rem 1.4rem; border-radius:8px;
+    font-size:.95rem;
+  }
+  .hero-grafico{flex:none; width:min(38vw, 260px);}
+  .hero-grafico svg{width:100%; height:auto; display:block;}
+
+  /* ---------- Secciones ---------- */
+  .seccion{max-width:1200px; margin:0 auto; padding:2.25rem 1.25rem;}
+  .seccion-titulo{
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    margin-bottom:1.1rem;
+  }
+  .seccion-titulo h3{font-size:1.3rem; margin:0;}
+  .ver-todas{
+    background:var(--coral); color:var(--blanco); border:0; border-radius:6px;
+    padding:.45rem 1rem; font-size:.85rem; font-weight:600; cursor:pointer;
+  }
+
+  .fila-scroll{
+    display:flex; gap:1rem; overflow-x:auto; padding-bottom:.5rem;
+    scroll-snap-type:x proximity;
+  }
+  .fila-scroll::-webkit-scrollbar{height:6px;}
+  .fila-scroll::-webkit-scrollbar-thumb{background:var(--gris-borde); border-radius:3px;}
+
+  /* ---------- Tarjeta de partido ---------- */
+  .tarjeta-partido{
+    flex:none; width:260px; scroll-snap-align:start;
+    border:1px solid var(--gris-borde); border-radius:12px; overflow:hidden;
+    background:var(--blanco);
+  }
+  .tarjeta-cabecera{
+    background:linear-gradient(135deg, var(--negro) 0%, var(--negro-suave) 100%);
+    color:var(--blanco);
+    padding:.9rem 1rem .8rem;
+    position:relative;
+  }
+  .tarjeta-liga{font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:rgba(255,255,255,.65); margin-bottom:.5rem;}
+  .en-vivo{
+    display:inline-flex; align-items:center; gap:.3rem;
+    background:var(--rojo); color:var(--blanco); font-size:.65rem; font-weight:700;
+    padding:.15rem .45rem; border-radius:4px; text-transform:uppercase;
+    position:absolute; top:.8rem; right:.8rem;
+  }
+  .en-vivo .punto{width:6px; height:6px; border-radius:50%; background:var(--blanco); animation:parpadeo 1.4s infinite;}
+  @keyframes parpadeo{50%{opacity:.25;}}
+  .equipos{display:flex; align-items:center; justify-content:space-between; gap:.5rem;}
+  .equipo{display:flex; flex-direction:column; align-items:center; gap:.4rem; width:72px;}
+  .escudo{
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Anton', sans-serif; font-size:.85rem;
+    background:var(--blanco); color:var(--negro);
+  }
+  .equipo span{font-size:.72rem; text-align:center; line-height:1.2;}
+  .marcador-vs{font-family:'Anton', sans-serif; font-size:1rem; color:rgba(255,255,255,.6);}
+  .fecha-partido{font-size:.68rem; color:rgba(255,255,255,.6); margin-top:.6rem;}
+
+  .mercado-1x2{display:flex; gap:.5rem; padding:.85rem;}
+  .cuota-btn{
+    flex:1; border:1.5px solid var(--gris-borde); background:var(--gris-fondo);
+    border-radius:8px; padding:.5rem .3rem; text-align:center; cursor:pointer;
+    transition:background .5s ease, border-color .2s ease, transform .12s ease;
+  }
+  .cuota-btn:hover{border-color:var(--rojo); transform:translateY(-1px);}
+  .cuota-btn .rotulo{display:block; font-size:.66rem; color:var(--texto-sec); margin-bottom:.15rem;}
+  .cuota-btn .valor{display:block; font-weight:700; font-size:.95rem; font-variant-numeric:tabular-nums;}
+  .cuota-sube{background:#E7F6EE !important;}
+  .cuota-baja{background:#FBEAEA !important;}
+  .flecha{font-size:.65rem; margin-left:.15rem;}
+  .flecha.sube{color:var(--verde);}
+  .flecha.baja{color:var(--rojo);}
+
+  .tarjeta-pie{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:.6rem .9rem .85rem; font-size:.72rem; color:var(--texto-sec);
+  }
+  .tarjeta-pie button{
+    background:none; border:0; color:var(--texto-sec); cursor:pointer;
+    display:flex; align-items:center; gap:.25rem; font-size:.72rem;
+  }
+
+  /* ---------- Franja en vivo (ticker) ---------- */
+  .franja-vivo{background:var(--negro); color:var(--blanco); padding:.6rem 0; overflow:hidden;}
+  .franja-vivo .contenido{display:flex; gap:2.5rem; white-space:nowrap; animation:desplazar 26s linear infinite;}
+  @keyframes desplazar{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  .franja-item{display:flex; align-items:center; gap:.5rem; font-size:.82rem;}
+  .franja-item b{color:var(--coral);}
+
+  footer{
+    border-top:1px solid var(--gris-borde);
+    padding:2rem 1.25rem; text-align:center;
+    font-size:.75rem; color:var(--texto-sec);
+  }
+
+  /* ---------- Botón flotante de chat ---------- */
+  .chat-flotante{
+    position:fixed; right:1.1rem; bottom:1.1rem;
+    background:var(--rojo); color:var(--blanco);
+    border-radius:30px; padding:.7rem 1.1rem;
+    display:flex; align-items:center; gap:.5rem;
+    font-size:.85rem; font-weight:600; text-decoration:none;
+    box-shadow:0 8px 20px rgba(227,36,43,.35);
+    z-index:50;
+  }
+
+  /* ---------- Cuota seleccionada dentro de la tarjeta de partido ---------- */
+  .cuota-btn.seleccionada{
+    border-color:var(--rojo); background:#FDEDEE;
+  }
+  .cuota-btn.seleccionada .valor{color:var(--rojo);}
+
+  /* ---------- Botón flotante del cupón (abre/cierra el panel) ---------- */
+  .cupon-fab{
+    position:fixed; right:1.1rem; bottom:4.6rem; z-index:55;
+    background:var(--negro); color:var(--blanco);
+    width:52px; height:52px; border-radius:50%; border:0; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+  }
+  .cupon-fab-badge{
+    position:absolute; top:-4px; right:-4px;
+    background:var(--rojo); color:var(--blanco);
+    min-width:19px; height:19px; padding:0 4px; border-radius:50%;
+    font-size:.68rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cupon-fab-badge.vacio{display:none;}
+
+  /* ---------- Fondo oscuro detrás del panel ---------- */
+  .cupon-backdrop{
+    position:fixed; inset:0; background:rgba(15,14,17,.4);
+    opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:59;
+  }
+  .cupon-backdrop.visible{opacity:1; pointer-events:auto;}
+
+  /* ---------- Panel del cupón ---------- */
+  .cupon-panel{
+    position:fixed; top:0; right:0; height:100vh;
+    width:380px; max-width:92vw;
+    background:var(--blanco); z-index:60;
+    box-shadow:-10px 0 28px rgba(0,0,0,.18);
+    display:flex; flex-direction:column;
+    transform:translateX(105%); transition:transform .25s ease;
+  }
+  .cupon-panel.abierto{transform:translateX(0);}
+
+  .cupon-header{
+    display:flex; align-items:center; gap:.6rem;
+    padding:1.1rem 1.1rem .8rem; border-bottom:1px solid var(--gris-borde);
+  }
+  .cupon-titulo{
+    font-weight:800; letter-spacing:.02em; font-size:.95rem;
+    display:flex; align-items:center; gap:.5rem; flex:1;
+  }
+  .cupon-badge-chip{
+    background:var(--rojo); color:var(--blanco);
+    min-width:22px; height:22px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:.78rem;
+  }
+  .cupon-guardado{color:var(--texto-sec); font-size:.85rem; font-weight:600;}
+  .cupon-cerrar{
+    background:none; border:0; font-size:1.3rem; line-height:1; cursor:pointer;
+    color:var(--texto-sec); padding:.2rem .4rem;
+  }
+
+  .cupon-tabs{display:flex; border-bottom:1px solid var(--gris-borde); padding:0 1.1rem;}
+  .cupon-tabs button{
+    flex:1; background:none; border:0; cursor:pointer;
+    padding:.85rem 0; font-size:.9rem; font-weight:600; color:var(--texto-sec);
+    border-bottom:2px solid transparent;
+  }
+  .cupon-tabs button.activo{color:var(--rojo); border-color:var(--rojo);}
+
+  .cupon-lista{flex:1; overflow-y:auto; padding:.9rem 1.1rem;}
+  .cupon-vacio{
+    text-align:center; color:var(--texto-sec); font-size:.85rem;
+    padding:2.5rem 1rem; display:flex; flex-direction:column; align-items:center; gap:.6rem;
+  }
+
+  .cupon-item{
+    background:var(--gris-fondo); border-radius:10px;
+    padding:.85rem .9rem; margin-bottom:.7rem; position:relative;
+  }
+  .cupon-item-cabecera{display:flex; justify-content:space-between; align-items:flex-start; gap:.5rem;}
+  .cupon-item-partido{font-weight:700; font-size:.88rem; text-decoration:underline; text-underline-offset:2px;}
+  .cupon-item-quitar{background:none; border:0; cursor:pointer; color:var(--texto-sec); font-size:1rem; line-height:1;}
+  .cupon-item-fecha{font-size:.75rem; color:var(--texto-sec); margin:.25rem 0 .35rem;}
+  .cupon-item-mercado{font-size:.78rem; color:var(--texto-sec); margin-bottom:.5rem;}
+  .cupon-item-seleccion{display:flex; align-items:center; justify-content:space-between; gap:.5rem;}
+  .cupon-item-seleccion .etiqueta{display:flex; align-items:center; gap:.4rem; font-weight:600; font-size:.88rem;}
+  .cupon-item-seleccion .cuota{font-weight:800; font-size:.9rem;}
+  .cupon-vivo-tag{
+    background:var(--rojo); color:var(--blanco); font-size:.62rem; font-weight:700;
+    padding:.1rem .35rem; border-radius:4px; text-transform:uppercase;
+  }
+  .cupon-item-monto{
+    display:flex; align-items:center; gap:.5rem; margin-top:.6rem;
+    padding-top:.55rem; border-top:1px dashed var(--gris-borde);
+    font-size:.78rem; color:var(--texto-sec);
+  }
+  .cupon-item-monto input{
+    width:70px; border:1px solid var(--gris-borde); border-radius:6px;
+    padding:.3rem .4rem; font:inherit; font-size:.82rem;
+  }
+  .cupon-item-monto .gana{margin-left:auto; color:var(--texto); font-weight:600;}
+
+  .cupon-acciones{display:flex; gap:.7rem; padding:0 1.1rem .9rem;}
+  .cupon-acciones button{
+    flex:1; padding:.7rem 0; border-radius:8px; font-weight:700; font-size:.85rem;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; gap:.4rem;
+  }
+  #cuponLimpiar{background:var(--blanco); border:1.5px solid var(--gris-borde); color:var(--texto);}
+  #cuponGuardar{background:var(--blanco); border:1.5px solid var(--gris-borde); color:var(--texto);}
+
+  .cupon-tip{
+    margin:0 1.1rem .9rem; background:#EAF4FE; border:1px solid #CFE6FB;
+    border-radius:10px; padding:.75rem .85rem; font-size:.8rem; color:#1B4B6E; line-height:1.4;
+  }
+
+  .cupon-stake{
+    display:flex; align-items:center; gap:.6rem;
+    padding:.8rem 1.1rem; border-top:1px solid var(--gris-borde); font-size:.88rem;
+  }
+  .cupon-stake input{
+    flex:1; border:1.5px solid var(--gris-borde); border-radius:8px;
+    padding:.55rem .7rem; font:inherit; font-size:.95rem; text-align:right;
+  }
+
+  .cupon-totales{padding:.2rem 1.1rem .9rem; font-size:.88rem;}
+  .cupon-totales > div{display:flex; justify-content:space-between; padding:.3rem 0;}
+  .cupon-totales hr{border:0; border-top:1px solid var(--gris-borde); margin:.4rem 0;}
+  .cupon-totales .ganancia{font-weight:800; font-size:1rem;}
+
+  .cupon-pie{display:flex; align-items:center; gap:.7rem; padding:.9rem 1.1rem 1.2rem;}
+  .cupon-guardar-icono{
+    flex:none; width:46px; height:46px; border-radius:8px;
+    border:1.5px solid var(--gris-borde); background:var(--blanco); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .btn-apostar{
+    flex:1; background:var(--rojo); color:var(--blanco); border:0; border-radius:8px;
+    padding:.9rem .8rem; font-weight:800; font-size:.92rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:.4rem;
+  }
+  .btn-apostar:disabled{opacity:.5; cursor:not-allowed;}
+
+  .cupon-sistema-nota{
+    margin:.5rem 1.1rem 0; font-size:.8rem; color:var(--texto-sec);
+    background:var(--gris-fondo); border-radius:8px; padding:.7rem .8rem;
+  }
+
+  /* --- Mis apuestas (modal) --- */
+  .apuestas-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:300;}
+  .apuestas-backdrop.visible{display:block;}
+  .apuestas-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(520px,92vw);max-height:80vh;overflow:auto;background:#fff;border-radius:12px;z-index:301;display:none;padding:1.25rem;}
+  .apuestas-modal.visible{display:block;}
+  .apuestas-modal h3{margin:0 0 .75rem;font-size:1.1rem;}
+  .apuestas-cerrar{float:right;background:none;border:0;font-size:1.2rem;cursor:pointer;}
+  .apuesta-reg{border:1px solid #E3E2E6;border-radius:8px;padding:.7rem .8rem;margin-bottom:.7rem;font-size:.85rem;}
+  .apuesta-reg .cab{display:flex;justify-content:space-between;font-weight:600;margin-bottom:.35rem;}
+  .apuesta-reg .sel{display:flex;justify-content:space-between;color:#6F6E76;padding:.1rem 0;}
+  .apuesta-reg .tot{margin-top:.4rem;display:flex;justify-content:space-between;font-weight:600;}
+  .apuestas-vacio{color:#6F6E76;text-align:center;padding:1.5rem 0;font-size:.9rem;}
+  .saldo-chip{background:#EAF7F4;color:#0F6E56;border:1px solid #BFE8DF;border-radius:999px;padding:.25rem .7rem;font-size:.8rem;font-weight:600;margin-right:.6rem;white-space:nowrap;}
+  .cupon-saldo{display:flex;justify-content:space-between;align-items:center;padding:.5rem 1rem;font-size:.85rem;color:#6F6E76;}
+  .cupon-saldo b{color:#17161B;}
+  .cupon-saldo button{background:none;border:0;color:#E3242B;font-weight:600;cursor:pointer;font-size:.85rem;}
+  .cupon-error{display:none;margin:0 1rem .5rem;padding:.5rem .7rem;background:#FDEDEE;border:1px solid #F6C9CB;color:#E3242B;border-radius:8px;font-size:.82rem;}
+  .cupon-error.visible{display:block;}
+  .apuestas-saldo{display:flex;justify-content:space-between;align-items:center;background:#F6F5F7;border-radius:8px;padding:.6rem .8rem;margin-bottom:.9rem;font-size:.9rem;}
+  .apuestas-saldo button{background:#E3242B;color:#fff;border:0;border-radius:6px;padding:.35rem .7rem;cursor:pointer;font-weight:600;}
+  .apuestas-ok{background:#EAF7F4;color:#0F6E56;border:1px solid #BFE8DF;border-radius:8px;padding:.5rem .7rem;margin-bottom:.8rem;font-size:.85rem;display:none;}
+  .apuestas-ok.visible{display:block;}
+  .apuesta-estado{font-size:.72rem;background:#FFF4D6;color:#8A6100;border-radius:999px;padding:.1rem .5rem;margin-left:.4rem;}
+</style>
+</head>
+<body>
+
+<header class="barra-superior">
+  <a href="index.html" class="logo">apuestatotal</a>
+  <div class="redes oculto-movil" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1.2 6.4h-1c-.5 0-.6.2-.6.7v1h1.7l-.2 1.7h-1.5V17h-1.9v-5.2H8.2V10h1.5V8.8c0-1.6.8-2.5 2.4-2.5h1.1v2.1Z"/></svg>
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h16Zm-1.4 4.2-6.1 3.9a1 1 0 0 1-1 0L5.4 8.2"/></svg>
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12a9 9 0 1 0-10.4 8.9v-6.3H8.1V12h2.5V9.8c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.6h-2.4v6.3A9 9 0 0 0 21 12Z"/></svg>
+  </div>
+  <nav class="acciones-cuenta" id="navInvitado">
+    <a href="registro.html" class="registrarse">Regístrate</a>
+    <span class="sep">|</span>
+    <a href="login.html">Inicia sesión</a>
+  </nav>
+
+  <nav class="acciones-cuenta" id="navCuenta" style="display:none;">
+    <span class="saldo-chip" id="saldoChip">S/ 0.00</span>
+    <div class="menu-cuenta">
+      <button class="btn-cuenta" id="btnCuenta">
+        <span class="avatar-iniciales" id="avatarIniciales">--</span>
+        <span id="nombreCuenta">Cuenta</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="desplegable-cuenta" id="desplegableCuenta">
+        <button id="btnMisApuestas">Mis apuestas</button>
+        <button id="btnRecargar">Recargar saldo (simulado)</button>
+        <button id="btnCerrarSesion">Cerrar sesión</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<nav class="barra-nav">
+  <ul>
+    <li class="activo"><a href="#en-vivo">Apuestas en vivo</a></li>
+    <li><a href="#deportivas">Apuestas deportivas</a></li>
+    <li><a href="#">Zona AT <span class="etiqueta-nueva">Nuevo</span></a></li>
+    <li><a href="#">Misiones</a></li>
+    <li><a href="#">Promociones</a></li>
+    <li><a href="#">Más</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-interior">
+    <div class="hero-texto">
+      <h2>Para ganar,<br>hay que creer</h2>
+      <p>Cuotas actualizadas al segundo en todas las ligas del mundo.</p>
+      <a href="#deportivas" class="btn-hero">¡Juega aquí!</a>
+    </div>
+    <div class="hero-grafico" aria-hidden="true">
+      <svg viewBox="0 0 220 220">
+        <circle cx="110" cy="110" r="100" fill="rgba(255,255,255,.08)"/>
+        <circle cx="110" cy="110" r="55" fill="#F6F5F7"/>
+        <path d="M110 55 L137 73 127 105 93 105 83 73Z" fill="#121214"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="franja-vivo" id="en-vivo">
+  <div class="contenido" id="ticker"></div>
+</div>
+
+<main>
+  <section class="seccion" id="deportivas">
+    <div class="seccion-titulo">
+      <h3>Apuestas deportivas · Fecha 01</h3>
+      <button class="ver-todas">Ver todas</button>
+    </div>
+    <div class="fila-scroll" id="fila-partidos"></div>
+  </section>
+
+  <section class="seccion">
+    <div class="seccion-titulo">
+      <h3>Ligas populares</h3>
+    </div>
+    <div class="fila-scroll" id="fila-ligas"></div>
+  </section>
+</main>
+
+<footer>
+  Apuesta Total — proyecto académico (Curso Integrador I, UTP). Juega con responsabilidad. Prohibido para menores de 18 años.
+</footer>
+
+<a class="chat-flotante" href="#">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  Chat
+</a>
+
+<!-- Botón flotante que abre el cupón de apuestas -->
+<button class="cupon-fab" id="cuponFab" aria-label="Ver cupón de apuestas">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4Z"/><path d="M10 6v12" stroke-dasharray="2 2"/></svg>
+  <span class="cupon-fab-badge vacio" id="cuponFabBadge">0</span>
+</button>
+
+<div class="cupon-backdrop" id="cuponBackdrop"></div>
+
+<aside class="cupon-panel" id="cuponPanel" aria-hidden="true">
+  <div class="cupon-header">
+    <div class="cupon-titulo">CUPÓN <span class="cupon-badge-chip" id="cuponBadgeChip">0</span></div>
+    <span class="cupon-guardado" id="cuponGuardadoTag" style="display:none;">GUARDADO</span>
+    <button class="cupon-cerrar" id="cuponCerrar" aria-label="Cerrar cupón">–</button>
+  </div>
+
+  <div class="cupon-tabs">
+    <button class="tab activo" data-tab="simple">Simple</button>
+    <button class="tab" data-tab="multiple">Múltiple</button>
+    <button class="tab" data-tab="sistema">Sistema</button>
+  </div>
+
+  <div class="cupon-lista" id="cuponLista"></div>
+
+  <div class="cupon-acciones" id="cuponAcciones">
+    <button id="cuponLimpiar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6"/></svg>
+      Limpiar todo
+    </button>
+    <button id="cuponGuardar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16l-8-4-8 4Z"/></svg>
+      Guardar
+    </button>
+  </div>
+
+  <div id="cuponSistemaNota" class="cupon-sistema-nota" style="display:none;">
+    El modo Sistema combina tus selecciones en varias apuestas Múltiple más pequeñas. Elige al menos 3 selecciones para generarlo.
+  </div>
+
+  <div class="cupon-stake" id="cuponStakeFila">
+    <span id="cuponTipoLabel">Múltiple</span>
+    <span>1 x</span>
+    <input type="number" id="cuponMonto" min="1" step="1" value="10">
+  </div>
+
+  <div class="cupon-totales">
+    <div><span>Cuota total</span><span id="cuponCuotaTotal">0.00</span></div>
+    <div><span>Apuesta total</span><span id="cuponApuestaTotal">S/ 0.00</span></div>
+    <hr>
+    <div class="ganancia"><span>Ganancia total</span><span id="cuponGananciaTotal">S/ 0.00</span></div>
+  </div>
+
+  <div class="cupon-error" id="cuponError"></div>
+  <div class="cupon-saldo" id="cuponSaldoFila"><span>Saldo simulado: <b id="cuponSaldo">S/ 0.00</b></span><button id="cuponRecargar" type="button">+ Recargar</button></div>
+
+  <div class="cupon-pie">
+    <button class="cupon-guardar-icono" aria-label="Guardar cupón">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h14v16l-7-4-7 4Z"/></svg>
+    </button>
+    <button class="btn-apostar" id="cuponApostar" disabled>
+      Realizar apuesta <span id="cuponApostarMonto">S/ 0.00</span>
+    </button>
+  </div>
+</aside>
+
+<div class="apuestas-backdrop" id="apuestasBackdrop"></div>
+<div class="apuestas-modal" id="apuestasModal" role="dialog" aria-label="Mis apuestas">
+  <button class="apuestas-cerrar" id="apuestasCerrar" aria-label="Cerrar">✕</button>
+  <h3>Mis apuestas</h3>
+  <div class="apuestas-ok" id="apuestasOk"></div>
+  <div class="apuestas-saldo"><span>Saldo simulado: <b id="apuestasSaldo">S/ 0.00</b></span><button id="apuestasRecargar" type="button">+ Recargar</button></div>
+  <div id="apuestasLista"></div>
+</div>
+
+<script>
+/* =====================================================================
+   Datos de ejemplo — en producción esto viene del backend (Spring Boot)
+   vía REST al cargar la página, y se actualiza por WebSocket/STOMP
+   suscrito a /topic/partido/{id}, reflejando la tabla mercado_opcion
+   y su historial en cuota_historial (ver apuesta_total_schema.sql).
+===================================================================== */
+const partidos = [
+  { liga:'Clasificatorias Mundial', local:'Turquía', visita:'Francia', fecha:'Vie 25 Set · 6:45 PM', enVivo:false, cuotas:{L:2.45,E:3.10,V:2.70} },
+  { liga:'Clasificatorias Mundial', local:'Italia',  visita:'Bélgica', fecha:'Vie 25 Set · 6:45 PM', enVivo:false, cuotas:{L:2.05,E:3.30,V:3.60} },
+  { liga:'Clasificatorias Mundial', local:'Hungría', visita:'Ucrania', fecha:'Vie 25 Set · 6:45 PM', enVivo:true,  cuotas:{L:2.90,E:3.05,V:2.35} },
+  { liga:'Clasificatorias Mundial', local:'Suecia',  visita:'Rumania', fecha:'Vie 25 Set · 6:45 PM', enVivo:false, cuotas:{L:1.95,E:3.40,V:3.80} },
+  { liga:'Clasificatorias Mundial', local:'Polonia', visita:'Bosnia',  fecha:'Vie 25 Set · 6:45 PM', enVivo:false, cuotas:{L:1.80,E:3.55,V:4.20} },
+  { liga:'Clasificatorias Mundial', local:'Marruecos', visita:'Gabón', fecha:'Vie 25 Set · 2:00 PM', enVivo:false, cuotas:{L:1.55,E:3.90,V:5.50} },
+];
+
+const ligas = ['Liga 1 Perú','Premier League','La Liga','Serie A','Bundesliga','Champions League','Copa Libertadores'];
+
+function iniciales(nombre){
+  return nombre.split(' ').map(p=>p[0]).join('').slice(0,3).toUpperCase();
+}
+
+function tarjetaHTML(p, idx){
+  return `
+  <article class="tarjeta-partido" data-idx="${idx}">
+    <div class="tarjeta-cabecera">
+      <div class="tarjeta-liga">${p.liga}</div>
+      ${p.enVivo ? '<span class="en-vivo"><span class="punto"></span>Vivo</span>' : ''}
+      <div class="equipos">
+        <div class="equipo"><span class="escudo">${iniciales(p.local)}</span><span>${p.local}</span></div>
+        <div class="marcador-vs">VS</div>
+        <div class="equipo"><span class="escudo">${iniciales(p.visita)}</span><span>${p.visita}</span></div>
+      </div>
+      <div class="fecha-partido">${p.fecha}</div>
+    </div>
+    <div class="mercado-1x2">
+      <button class="cuota-btn" data-op="L"><span class="rotulo">Local</span><span class="valor">${p.cuotas.L.toFixed(2)}</span></button>
+      <button class="cuota-btn" data-op="E"><span class="rotulo">Empate</span><span class="valor">${p.cuotas.E.toFixed(2)}</span></button>
+      <button class="cuota-btn" data-op="V"><span class="rotulo">Visita</span><span class="valor">${p.cuotas.V.toFixed(2)}</span></button>
+    </div>
+    <div class="tarjeta-pie">
+      <span>+18 mercados</span>
+      <button aria-label="Agregar a favoritos">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-8.5C.8 9 2.2 5.5 5.6 5.1c2-.24 3.6.8 4.4 2.2.8-1.4 2.4-2.44 4.4-2.2 3.4.4 4.8 3.9 3.1 7.4C19 16.65 12 21 12 21Z"/></svg>
+        Favorito
+      </button>
+    </div>
+  </article>`;
+}
+
+const filaPartidos = document.getElementById('fila-partidos');
+filaPartidos.innerHTML = partidos.map(tarjetaHTML).join('');
+
+// Ligas populares (tarjetas simples)
+const filaLigas = document.getElementById('fila-ligas');
+filaLigas.innerHTML = ligas.map(nombre => `
+  <article class="tarjeta-partido" style="width:170px;">
+    <div class="tarjeta-cabecera" style="padding:1.4rem 1rem;">
+      <div class="equipo" style="width:100%;">
+        <span class="escudo" style="width:46px;height:46px;">${iniciales(nombre)}</span>
+        <span style="font-size:.8rem;">${nombre}</span>
+      </div>
+    </div>
+  </article>`).join('');
+
+// Ticker "en vivo"
+const ticker = document.getElementById('ticker');
+const enVivo = partidos.filter(p => p.enVivo);
+const itemsTicker = (enVivo.length ? enVivo : partidos.slice(0,3))
+  .map(p => `<div class="franja-item"><b>● VIVO</b> ${p.local} ${Math.floor(Math.random()*3)} - ${Math.floor(Math.random()*3)} ${p.visita}</div>`)
+  .join('');
+ticker.innerHTML = itemsTicker + itemsTicker; // duplicado para el scroll continuo
+
+/* ---------------------------------------------------------------------
+   Simulación de actualización de cuotas en tiempo real.
+   En el proyecto real, este bloque se reemplaza por el handler del
+   cliente STOMP: stompClient.subscribe('/topic/partido/'+id, msg => {...})
+--------------------------------------------------------------------- */
+function actualizarCuotasAleatorias(){
+  document.querySelectorAll('.tarjeta-partido[data-idx]').forEach(tarjeta=>{
+    const idx = tarjeta.dataset.idx;
+    const p = partidos[idx];
+    const claves = ['L','E','V'];
+    const clave = claves[Math.floor(Math.random()*claves.length)];
+    const anterior = p.cuotas[clave];
+    const delta = (Math.random() - 0.5) * 0.2;
+    let nueva = Math.max(1.10, +(anterior + delta).toFixed(2));
+    p.cuotas[clave] = nueva;
+
+    const boton = tarjeta.querySelector(`.cuota-btn[data-op="${clave}"]`);
+    const valor = boton.querySelector('.valor');
+    const subio = nueva > anterior;
+    valor.textContent = nueva.toFixed(2);
+    boton.classList.remove('cuota-sube','cuota-baja');
+    void boton.offsetWidth; // reinicia animación
+    boton.classList.add(subio ? 'cuota-sube' : 'cuota-baja');
+    setTimeout(()=> boton.classList.remove('cuota-sube','cuota-baja'), 900);
+
+    // Si esa cuota está en el cupón, se refleja al toque (apuesta en tiempo real)
+    if (seleccionActiva(idx, clave)) renderCupon();
+  });
+}
+setInterval(actualizarCuotasAleatorias, 3500);
+
+/* =====================================================================
+   SESIÓN DE CUENTA — misma llave que usan registro.html y login.html
+   (localStorage, demo sin backend). Si hay sesión activa, se muestra
+   el nombre de la cuenta en vez de "Regístrate / Inicia sesión".
+===================================================================== */
+const CLAVE_SESION = 'apuestaTotalSesion';
+
+function obtenerSesion(){
+  try { return JSON.parse(localStorage.getItem(CLAVE_SESION)); }
+  catch(e){ return null; }
+}
+
+function inicialesNombre(nombre){
+  return nombre.trim().split(/\s+/).map(p => p[0]).join('').slice(0,2).toUpperCase();
+}
+
+function pintarBarraCuenta(){
+  const sesion = obtenerSesion();
+  const navInvitado = document.getElementById('navInvitado');
+  const navCuenta = document.getElementById('navCuenta');
+  if (sesion && sesion.dni){
+    navInvitado.style.display = 'none';
+    navCuenta.style.display = 'flex';
+    document.getElementById('nombreCuenta').textContent = 'DNI ' + sesion.dni.slice(0,2) + '••••' + sesion.dni.slice(-2);
+    document.getElementById('avatarIniciales').textContent = sesion.dni.slice(-2);
+  } else {
+    navInvitado.style.display = 'flex';
+    navCuenta.style.display = 'none';
+  }
+}
+pintarBarraCuenta();
+
+const elBtnCuenta = document.getElementById('btnCuenta');
+const elDesplegableCuenta = document.getElementById('desplegableCuenta');
+if (elBtnCuenta){
+  elBtnCuenta.addEventListener('click', (ev)=>{
+    ev.stopPropagation();
+    elDesplegableCuenta.classList.toggle('visible');
+  });
+  document.addEventListener('click', ()=> elDesplegableCuenta.classList.remove('visible'));
+  document.getElementById('btnCerrarSesion').addEventListener('click', ()=>{
+    localStorage.removeItem(CLAVE_SESION);
+    window.location.href = 'index.html';
+  });
+}
+
+/* =====================================================================
+   CUPÓN DE APUESTAS — selección de mercados y cálculo de la apuesta.
+   En el backend, "Realizar apuesta" crearía un registro en la tabla
+   `apuesta` + una fila en `apuesta_seleccion` por cada selección,
+   guardando la cuota_congelada tal como está al momento de confirmar.
+===================================================================== */
+const NOMBRE_MERCADO = 'Resultado del partido (1X2)';
+let selecciones = [];      // [{ idxPartido, op }]
+let tabActiva = 'simple';  // 'simple' | 'multiple' | 'sistema'
+let tabElegidaManualmente = false;
+
+const elFab          = document.getElementById('cuponFab');
+const elBadgeFab      = document.getElementById('cuponFabBadge');
+const elBackdrop      = document.getElementById('cuponBackdrop');
+const elPanel         = document.getElementById('cuponPanel');
+const elCerrar        = document.getElementById('cuponCerrar');
+const elLista         = document.getElementById('cuponLista');
+const elBadgeChip     = document.getElementById('cuponBadgeChip');
+const elTabs          = document.querySelectorAll('.cupon-tabs .tab');
+const elLimpiar       = document.getElementById('cuponLimpiar');
+const elAcciones      = document.getElementById('cuponAcciones');
+const elStakeFila     = document.getElementById('cuponStakeFila');
+const elTipoLabel     = document.getElementById('cuponTipoLabel');
+const elMonto         = document.getElementById('cuponMonto');
+const elCuotaTotal    = document.getElementById('cuponCuotaTotal');
+const elApuestaTotal  = document.getElementById('cuponApuestaTotal');
+const elGananciaTotal = document.getElementById('cuponGananciaTotal');
+const elApostar       = document.getElementById('cuponApostar');
+const elApostarMonto  = document.getElementById('cuponApostarMonto');
+const elSistemaNota   = document.getElementById('cuponSistemaNota');
+
+function etiquetaOpcion(idx, op){
+  const p = partidos[idx];
+  if (op === 'L') return p.local;
+  if (op === 'V') return p.visita;
+  return 'Empate';
+}
+function seleccionActiva(idx, op){
+  return selecciones.some(s => s.idxPartido === idx && s.op === op);
+}
+
+// Delegación de clic sobre cualquier botón de cuota (partidos y, a futuro, otros mercados)
+document.addEventListener('click', (ev)=>{
+  const boton = ev.target.closest('.cuota-btn');
+  if (!boton) return;
+  const tarjeta = boton.closest('.tarjeta-partido[data-idx]');
+  if (!tarjeta) return;
+  const idx = Number(tarjeta.dataset.idx);
+  const op = boton.dataset.op;
+  const yaEstaba = seleccionActiva(idx, op);
+
+  // Solo una selección por partido en el mercado 1X2 (son mutuamente excluyentes)
+  selecciones = selecciones.filter(s => s.idxPartido !== idx);
+  if (!yaEstaba) selecciones.push({ idxPartido: idx, op });
+
+  renderCupon();
+  if (!yaEstaba) abrirCupon();
+});
+
+function abrirCupon(){
+  elPanel.classList.add('abierto');
+  elBackdrop.classList.add('visible');
+  elPanel.setAttribute('aria-hidden', 'false');
+}
+function cerrarCupon(){
+  elPanel.classList.remove('abierto');
+  elBackdrop.classList.remove('visible');
+  elPanel.setAttribute('aria-hidden', 'true');
+}
+elFab.addEventListener('click', ()=> elPanel.classList.contains('abierto') ? cerrarCupon() : abrirCupon());
+elCerrar.addEventListener('click', cerrarCupon);
+elBackdrop.addEventListener('click', cerrarCupon);
+
+elTabs.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabActiva = btn.dataset.tab;
+    tabElegidaManualmente = true;
+    renderCupon();
+  });
+});
+
+elLimpiar.addEventListener('click', ()=>{
+  selecciones = [];
+  tabActiva = 'simple';
+  tabElegidaManualmente = false;
+  renderCupon();
+});
+
+elMonto.addEventListener('input', renderCupon);
+
+elApostar.addEventListener('click', ()=>{
+  if (!selecciones.length) return;
+  const sesion = obtenerSesion();
+  if (!sesion || !sesion.dni){
+    guardarCupon(); // para no perder la selección al ir a iniciar sesión
+    window.location.href = 'login.html';
+    return;
+  }
+  const total = calcularTotales();
+  const monto = Math.max(0, Number(elMonto.value) || 0);
+  const elError = document.getElementById('cuponError');
+  elError.classList.remove('visible');
+
+  const saldo = obtenerSaldo(sesion.dni);
+  if (total.apuestaTotal > saldo){
+    elError.textContent = `Saldo insuficiente (S/ ${saldo.toFixed(2)}). Recarga saldo simulado o baja el monto.`;
+    elError.classList.add('visible');
+    return;
+  }
+
+  const registro = {
+    id: Date.now(),
+    dni: sesion.dni,
+    fecha: new Date().toISOString(),
+    tipo: tabActiva,
+    estado: 'Pendiente',
+    monto: monto,
+    cuotaTotal: total.cuotaTotal,
+    apuestaTotal: total.apuestaTotal,
+    gananciaPotencial: total.gananciaTotal,
+    selecciones: selecciones.map(s => {
+      const p = partidos[s.idxPartido];
+      return { partido: p.local + ' vs ' + p.visita, fecha: p.fecha, opcion: etiquetaOpcion(s.idxPartido, s.op), cuota: p.cuotas[s.op] };
+    })
+  };
+  const todas = obtenerApuestas();
+  todas.push(registro);
+  localStorage.setItem(CLAVE_APUESTAS, JSON.stringify(todas));
+  guardarSaldo(sesion.dni, saldo - total.apuestaTotal);
+
+  selecciones = [];
+  tabActiva = 'simple';
+  tabElegidaManualmente = false;
+  renderCupon();
+  cerrarCupon();
+  abrirMisApuestas(`¡Apuesta registrada por S/ ${total.apuestaTotal.toFixed(2)}! Ganancia potencial: S/ ${total.gananciaTotal.toFixed(2)}.`);
+});
+
+function calcularTotales(){
+  const monto = Math.max(0, Number(elMonto.value) || 0);
+  const cuotas = selecciones.map(s => partidos[s.idxPartido].cuotas[s.op]);
+
+  if (tabActiva === 'simple'){
+    // Cada selección es una apuesta independiente por el mismo monto
+    const apuestaTotal = monto * selecciones.length;
+    const gananciaTotal = cuotas.reduce((acc, c) => acc + monto * c, 0);
+    return { cuotaTotal: null, apuestaTotal, gananciaTotal };
+  }
+  if (tabActiva === 'sistema'){
+    return { cuotaTotal: null, apuestaTotal: 0, gananciaTotal: 0 };
+  }
+  // Múltiple: una sola apuesta combinando todas las cuotas
+  const cuotaTotal = cuotas.reduce((acc, c) => acc * c, 1);
+  const apuestaTotal = monto;
+  const gananciaTotal = monto * cuotaTotal;
+  return { cuotaTotal, apuestaTotal, gananciaTotal };
+}
+
+function renderCupon(){
+  if (typeof guardarCupon === 'function') guardarCupon();
+  // Auto-sugerir pestaña según la cantidad de selecciones, salvo que el
+  // usuario ya haya elegido una manualmente.
+  if (!tabElegidaManualmente){
+    tabActiva = selecciones.length > 1 ? 'multiple' : 'simple';
+  }
+  elTabs.forEach(b => b.classList.toggle('activo', b.dataset.tab === tabActiva));
+
+  const cantidad = selecciones.length;
+  elBadgeChip.textContent = cantidad;
+  elBadgeFab.textContent = cantidad;
+  elBadgeFab.classList.toggle('vacio', cantidad === 0);
+
+  // Marcar visualmente los botones de cuota seleccionados
+  document.querySelectorAll('.cuota-btn').forEach(b => b.classList.remove('seleccionada'));
+  selecciones.forEach(s=>{
+    const tarjeta = document.querySelector(`.tarjeta-partido[data-idx="${s.idxPartido}"]`);
+    if (tarjeta) tarjeta.querySelector(`.cuota-btn[data-op="${s.op}"]`)?.classList.add('seleccionada');
+  });
+
+  // Lista de selecciones
+  if (!cantidad){
+    elLista.innerHTML = `
+      <div class="cupon-vacio">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4Z"/></svg>
+        Toca la cuota de cualquier partido para agregarla a tu cupón.
+      </div>`;
+  } else {
+    const monto = Math.max(0, Number(elMonto.value) || 0);
+    elLista.innerHTML = selecciones.map(s=>{
+      const p = partidos[s.idxPartido];
+      const cuota = p.cuotas[s.op];
+      return `
+      <div class="cupon-item">
+        <div class="cupon-item-cabecera">
+          <span class="cupon-item-partido">${p.local} vs ${p.visita}</span>
+          <button class="cupon-item-quitar" data-quitar-idx="${s.idxPartido}" data-quitar-op="${s.op}" aria-label="Quitar selección">✕</button>
+        </div>
+        <div class="cupon-item-fecha">${p.fecha}</div>
+        <div class="cupon-item-mercado">${NOMBRE_MERCADO}</div>
+        <div class="cupon-item-seleccion">
+          <span class="etiqueta">${p.enVivo ? '<span class="cupon-vivo-tag">En vivo</span>' : ''} ${etiquetaOpcion(s.idxPartido, s.op)}</span>
+          <span class="cuota">${cuota.toFixed(2)}</span>
+        </div>
+        ${tabActiva === 'simple' ? `<div class="cupon-item-monto"><span>Apuesta S/ ${monto.toFixed(2)}</span><span class="gana">Gana S/ ${(monto * cuota).toFixed(2)}</span></div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  elTipoLabel.textContent = tabActiva === 'multiple' ? 'Múltiple' : tabActiva === 'sistema' ? 'Sistema' : 'Simple';
+  elSistemaNota.style.display = tabActiva === 'sistema' ? 'block' : 'none';
+  elAcciones.style.display = cantidad ? 'flex' : 'none';
+
+  elStakeFila.style.display = tabActiva === 'sistema' ? 'none' : 'flex';
+
+  const totales = calcularTotales();
+  elCuotaTotal.parentElement.style.display = tabActiva === 'multiple' ? 'flex' : 'none';
+  elCuotaTotal.textContent = totales.cuotaTotal ? totales.cuotaTotal.toFixed(2) : '0.00';
+  elApuestaTotal.textContent = `S/ ${totales.apuestaTotal.toFixed(2)}`;
+  elGananciaTotal.textContent = `S/ ${totales.gananciaTotal.toFixed(2)}`;
+  elApostarMonto.textContent = `S/ ${totales.apuestaTotal.toFixed(2)}`;
+  elApostar.disabled = !cantidad || tabActiva === 'sistema' || totales.apuestaTotal <= 0;
+}
+
+// Quitar selección individual / cambiar monto por selección (modo Simple)
+elLista.addEventListener('click', (ev)=>{
+  const boton = ev.target.closest('[data-quitar-idx]');
+  if (!boton) return;
+  const idx = Number(boton.dataset.quitarIdx);
+  const op = boton.dataset.quitarOp;
+  selecciones = selecciones.filter(s => !(s.idxPartido === idx && s.op === op));
+  if (!selecciones.length) tabElegidaManualmente = false;
+  renderCupon();
+});
+
+/* =====================================================================
+   PERSISTENCIA — las apuestas realizadas se guardan en localStorage
+   asociadas al DNI, así siguen ahí al cerrar sesión y volver a entrar.
+   También se guarda el cupón en curso para no perderlo.
+===================================================================== */
+const CLAVE_APUESTAS = 'apuestaTotalApuestas';
+const CLAVE_CUPON = 'apuestaTotalCupon';
+const CLAVE_SALDOS = 'apuestaTotalSaldos';
+const SALDO_INICIAL = 1000; // dinero simulado de bienvenida
+
+function obtenerSaldos(){
+  try { return JSON.parse(localStorage.getItem(CLAVE_SALDOS)) || {}; }
+  catch(e){ return {}; }
+}
+function obtenerSaldo(dni){
+  const saldos = obtenerSaldos();
+  return (dni in saldos) ? Number(saldos[dni]) : SALDO_INICIAL;
+}
+function guardarSaldo(dni, valor){
+  const saldos = obtenerSaldos();
+  saldos[dni] = Math.round(valor * 100) / 100;
+  localStorage.setItem(CLAVE_SALDOS, JSON.stringify(saldos));
+  pintarSaldo();
+}
+function pintarSaldo(){
+  const sesion = obtenerSesion();
+  const dni = sesion && sesion.dni;
+  const texto = dni ? `S/ ${obtenerSaldo(dni).toFixed(2)}` : '';
+  document.getElementById('saldoChip').textContent = texto;
+  document.getElementById('cuponSaldo').textContent = texto;
+  document.getElementById('apuestasSaldo').textContent = texto;
+  document.getElementById('cuponSaldoFila').style.display = dni ? 'flex' : 'none';
+}
+function recargarSaldo(){
+  const sesion = obtenerSesion();
+  if (!sesion || !sesion.dni){ window.location.href = 'login.html'; return; }
+  const txt = prompt('¿Cuánto dinero simulado quieres agregar? (S/)', '500');
+  if (txt === null) return;
+  const monto = Number(txt.replace(',', '.'));
+  if (!(monto > 0)){ alert('Ingresa un monto válido mayor a 0.'); return; }
+  guardarSaldo(sesion.dni, obtenerSaldo(sesion.dni) + monto);
+}
+
+function obtenerApuestas(){
+  try { return JSON.parse(localStorage.getItem(CLAVE_APUESTAS)) || []; }
+  catch(e){ return []; }
+}
+function guardarCupon(){
+  try { localStorage.setItem(CLAVE_CUPON, JSON.stringify({ selecciones, tabActiva, tabElegidaManualmente, monto: elMonto.value })); } catch(e){}
+}
+function cargarCupon(){
+  try {
+    const c = JSON.parse(localStorage.getItem(CLAVE_CUPON));
+    if (!c) return;
+    selecciones = (c.selecciones || []).filter(x => partidos[x.idxPartido]);
+    tabActiva = c.tabActiva || 'simple';
+    tabElegidaManualmente = !!c.tabElegidaManualmente;
+    if (c.monto) elMonto.value = c.monto;
+  } catch(e){}
+}
+
+const elApBackdrop = document.getElementById('apuestasBackdrop');
+const elApModal = document.getElementById('apuestasModal');
+function abrirMisApuestas(mensaje){
+  const sesion = obtenerSesion();
+  const mias = obtenerApuestas().filter(a => sesion && a.dni === sesion.dni).reverse();
+  const ok = document.getElementById('apuestasOk');
+  ok.textContent = (typeof mensaje === 'string') ? mensaje : '';
+  ok.classList.toggle('visible', typeof mensaje === 'string');
+  pintarSaldo();
+  const cont = document.getElementById('apuestasLista');
+  cont.innerHTML = mias.length ? mias.map(a => `
+    <div class="apuesta-reg">
+      <div class="cab"><span>${a.tipo.charAt(0).toUpperCase() + a.tipo.slice(1)}<span class="apuesta-estado">${a.estado || 'Pendiente'}</span></span><span>${new Date(a.fecha).toLocaleString('es-PE')}</span></div>
+      ${a.selecciones.map(x => `<div class="sel"><span>${x.partido} · ${x.opcion}</span><span>${x.cuota.toFixed(2)}</span></div>`).join('')}
+      <div class="tot"><span>Apostado: S/ ${a.apuestaTotal.toFixed(2)}</span><span>Gana: S/ ${a.gananciaPotencial.toFixed(2)}</span></div>
+    </div>`).join('') : '<div class="apuestas-vacio">Aún no tienes apuestas realizadas.</div>';
+  elApBackdrop.classList.add('visible');
+  elApModal.classList.add('visible');
+}
+function cerrarMisApuestas(){
+  elApBackdrop.classList.remove('visible');
+  elApModal.classList.remove('visible');
+}
+document.getElementById('btnMisApuestas')?.addEventListener('click', ()=> abrirMisApuestas());
+document.getElementById('btnRecargar')?.addEventListener('click', recargarSaldo);
+document.getElementById('cuponRecargar').addEventListener('click', recargarSaldo);
+document.getElementById('apuestasRecargar').addEventListener('click', recargarSaldo);
+document.getElementById('apuestasCerrar').addEventListener('click', cerrarMisApuestas);
+elApBackdrop.addEventListener('click', cerrarMisApuestas);
+
+cargarCupon();
+pintarSaldo();
+renderCupon();
+</script>
+
+</body>
+</html>
